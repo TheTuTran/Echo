@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/Toaster";
+import Providers from "@/components/Providers";
 
 export const metadata = {
   title: "Echo",
@@ -27,15 +28,17 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className="min-h-screen pt-12 bg-slate-50 antialiased">
-        {/* @ts-expect-error server component */}
-        <Navbar />
+        <Providers>
+          {/* @ts-expect-error server component */}
+          <Navbar />
 
-        {authModal}
+          {authModal}
 
-        <main className="container max-w-7xl mx-auto h-full pt-12">
-          {children}
-        </main>
-        <Toaster />
+          <main className="container max-w-7xl mx-auto h-full pt-12">
+            {children}
+          </main>
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

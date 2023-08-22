@@ -39,11 +39,11 @@ model Session {
 }
 
 model User {
-    id                String      @id @default(cuid())
-    name              String?
-    email             String?     @unique
-    emailVerified     DateTime?
-    createdSubreddits Subreddit[] @relation("CreatedBy")
+    id                 String       @id @default(cuid())
+    name               String?
+    email              String?      @unique
+    emailVerified      DateTime?
+    createdSubchambers Subchamber[] @relation("CreatedBy")
 
     username String? @unique
     image    String?
@@ -58,7 +58,7 @@ model User {
     Subscription Subscription[]
 }
 
-model Subreddit {
+model Subchamber {
     id        String   @id @default(cuid())
     name      String   @unique
     createdAt DateTime @default(now())
@@ -73,12 +73,12 @@ model Subreddit {
 }
 
 model Subscription {
-    user        User      @relation(fields: [userId], references: [id])
-    userId      String
-    subreddit   Subreddit @relation(fields: [subredditId], references: [id])
-    subredditId String
+    user         User       @relation(fields: [userId], references: [id])
+    userId       String
+    subchamber   Subchamber @relation(fields: [subchamberId], references: [id])
+    subchamberId String
 
-    @@id([userId, subredditId])
+    @@id([userId, subchamberId])
 }
 
 model Post {
@@ -88,14 +88,14 @@ model Post {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    subreddit   Subreddit @relation(fields: [subredditId], references: [id])
-    subredditId String
+    subchamber   Subchamber @relation(fields: [subchamberId], references: [id])
+    subchamberId String
 
     author   User   @relation(fields: [authorId], references: [id])
     authorId String
 
     comments Comment[]
-    Vote     Vote[]
+    votes    Vote[]
 }
 
 model Comment {
