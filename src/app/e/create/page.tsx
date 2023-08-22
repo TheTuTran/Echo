@@ -2,17 +2,17 @@
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { CreateSubchamberPayload } from "@/lib/validators/subchamber";
 import { toast } from "@/hooks/use-toast";
 import { useCustomToast } from "@/hooks/use-custom-toast";
+import { CreateSubchamberPayload } from "@/lib/validators/subchamber";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const page = ({}) => {
-  const [input, setInput] = useState<string>("");
+const Page = () => {
   const router = useRouter();
+  const [input, setInput] = useState<string>("");
   const { loginToast } = useCustomToast();
 
   const { mutate: createCommunity, isLoading } = useMutation({
@@ -21,23 +21,23 @@ const page = ({}) => {
         name: input,
       };
 
-      const { data } = await axios.post("/api/subchamber");
+      const { data } = await axios.post("/api/subchamber", payload);
       return data as string;
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {
           return toast({
-            title: "Subchamber already exists",
-            description: "Please choose a different subchamber name.",
+            title: "Subreddit already exists.",
+            description: "Please choose a different name.",
             variant: "destructive",
           });
         }
 
         if (err.response?.status === 422) {
           return toast({
-            title: "Invalid Subchamber name.",
-            description: "Please choose a name between 3 and 21 characters",
+            title: "Invalid subchamber name.",
+            description: "Please choose a name between 3 and 21 letters.",
             variant: "destructive",
           });
         }
@@ -48,34 +48,33 @@ const page = ({}) => {
       }
 
       toast({
-        title: "There was an error",
+        title: "There was an error.",
         description: "Could not create subchamber.",
         variant: "destructive",
       });
     },
     onSuccess: (data) => {
-      router.push(`/r/${data}`);
+      router.push(`/e/${data}`);
     },
   });
 
   return (
-    <main className="container flex items-center h-full max-w-3xl mx-auto">
-      <section className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
-        <section className="flex justify-between items-center">
+    <div className="container flex items-center h-full max-w-3xl mx-auto">
+      <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
+        <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Create a Community</h1>
-        </section>
+        </div>
 
-        <hr className="bg-zinc-500 h-px" />
+        <hr className="bg-red-500 h-px" />
 
-        <section>
+        <div>
           <p className="text-lg font-medium">Name</p>
           <p className="text-xs pb-2">
-            Community names including capitalization cannot be changed
+            Community names including capitalization cannot be changed.
           </p>
-
           <div className="relative">
             <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">
-              r/
+              e/
             </p>
             <Input
               value={input}
@@ -83,10 +82,14 @@ const page = ({}) => {
               className="pl-6"
             />
           </div>
-        </section>
+        </div>
 
-        <section className="flex justify-end gap-4">
-          <Button variant="subtle" onClick={() => router.back()}>
+        <div className="flex justify-end gap-4">
+          <Button
+            disabled={isLoading}
+            variant="subtle"
+            onClick={() => router.back()}
+          >
             Cancel
           </Button>
           <Button
@@ -96,10 +99,10 @@ const page = ({}) => {
           >
             Create Community
           </Button>
-        </section>
-      </section>
-    </main>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default page;
+export default Page;

@@ -14,14 +14,18 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name } = SubchamberValidator.parse(body);
 
+    // check if subchamber already exists
     const subchamberExists = await db.subchamber.findFirst({
-      where: { name },
+      where: {
+        name,
+      },
     });
 
     if (subchamberExists) {
       return new Response("Subchamber already exists", { status: 409 });
     }
 
+    // create subchamber and associate it with the user
     const subchamber = await db.subchamber.create({
       data: {
         name,
@@ -29,6 +33,7 @@ export async function POST(req: Request) {
       },
     });
 
+    // creator also has to be subscribed
     await db.subscription.create({
       data: {
         userId: session.user.id,
@@ -37,11 +42,11 @@ export async function POST(req: Request) {
     });
 
     return new Response(subchamber.name);
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return new Response(err.message, { status: 422 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(error.message, { status: 422 });
     }
 
-    return new Response("could not create subchamber", { status: 500 });
+    return new Response("Could not create subchamber", { status: 500 });
   }
 }
