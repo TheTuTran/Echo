@@ -39,7 +39,7 @@ const page = async ({ params }: PageProps) => {
   return (
     <>
       <h1 className="font-bold text-3xl md:text-4xl h-14">
-        e/{subchamber.name}
+        c/{subchamber.name}
       </h1>
       <MiniCreatePost session={session} />
     </>

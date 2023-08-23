@@ -2,6 +2,9 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
+import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/Button";
 
 const Layout = async ({
   children,
@@ -61,7 +64,7 @@ const Layout = async ({
 
           <section className="hidden md:block overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
             <div className="px-6 py-4">
-              <p className="font-semibold py-3">About e/{subchamber.name}</p>
+              <p className="font-semibold py-3">About c/{subchamber.name}</p>
             </div>
             <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
               <section className="flex justify-between gap-x-4 py-3">
@@ -83,6 +86,23 @@ const Layout = async ({
                   <p className="text-gray-500">You created this community</p>
                 </section>
               ) : null}
+
+              {subchamber.creatorId !== session?.user.id ? (
+                <SubscribeLeaveToggle
+                  isSubscribed={isSubscribed}
+                  subchamberId={subchamber.id}
+                  subchamberName={subchamber.name}
+                />
+              ) : null}
+              <Link
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "w-full mb-6",
+                })}
+                href={`r/${slug}/submit`}
+              >
+                Create Post
+              </Link>
             </dl>
           </section>
         </section>
