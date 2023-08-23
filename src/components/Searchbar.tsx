@@ -84,14 +84,14 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
               {queryResults?.map((subchamber) => (
                 <CommandItem
                   onSelect={(e) => {
-                    router.push(`/r/${e}`);
+                    router.push(`/c/${e}`);
                     router.refresh();
                   }}
                   key={subchamber.id}
                   value={subchamber.name}
                 >
                   <Users className="mr-2 h-4 w-4" />
-                  <a href={`/r/${subchamber.name}`}>r/{subchamber.name}</a>
+                  <a href={`/c/${subchamber.name}`}>c/{subchamber.name}</a>
                 </CommandItem>
               ))}
             </CommandGroup>
