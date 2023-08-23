@@ -184,7 +184,7 @@ const Editor: React.FC<EditorProps> = ({ subchamberId }) => {
   const { ref: titleRef, ...rest } = register("title");
 
   return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    <main className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
       <form
         id="subchamber-post-form"
         className="w-fit"
@@ -211,7 +211,7 @@ const Editor: React.FC<EditorProps> = ({ subchamberId }) => {
           </p>
         </div>
       </form>
-    </div>
+    </main>
   );
 };
 
