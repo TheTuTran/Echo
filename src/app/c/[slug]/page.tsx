@@ -1,4 +1,5 @@
 import MiniCreatePost from "@/components/MiniCreatePost";
+import PostFeed from "@/components/PostFeed";
 //import PostFeed from '@/components/PostFeed'
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { getAuthSession } from "@/lib/auth";
@@ -42,6 +43,10 @@ const page = async ({ params }: PageProps) => {
         c/{subchamber.name}
       </h1>
       <MiniCreatePost session={session} />
+      <PostFeed
+        initialPosts={subchamber.posts}
+        subchamberName={subchamber.name}
+      />
     </>
   );
 };
