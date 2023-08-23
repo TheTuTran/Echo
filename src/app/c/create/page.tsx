@@ -28,7 +28,7 @@ const Page = () => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {
           return toast({
-            title: "Subreddit already exists.",
+            title: "Subchamber already exists.",
             description: "Please choose a different name.",
             variant: "destructive",
           });
